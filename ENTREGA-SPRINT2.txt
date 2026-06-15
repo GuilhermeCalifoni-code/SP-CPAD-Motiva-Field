@@ -1,0 +1,14 @@
+MOTIVA FIELD — Sprint 2
+Cross-Platform Application Development
+FIAP 2026 | Prof. Hercules Lima
+
+INTEGRANTES:
+- Guilherme Domingues Califoni | RM 565157
+- Enzo Ribeiro Domingues Piazentin | RM 564216
+- Bento Donato Garcia | RM 561621
+
+REPOSITÓRIO GITHUB:
+https://github.com/GuilhermeCalifoni-code/SP-CPAD-Motiva-Field
+
+VÍDEO DEMONSTRAÇÃO (YouTube - não listado):
+[INSERIR LINK APÓS GRAVAÇÃO]

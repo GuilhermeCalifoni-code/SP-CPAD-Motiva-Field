@@ -1,0 +1,24 @@
+{
+  
+  "expo": {
+    "name": "Motiva Field",
+    "slug": "motiva-field",
+    "version": "1.0.0",
+    "sdkVersion": "54.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "android": {
+      "permissions": [
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION",
+        "CAMERA"
+      ]
+    },
+    "ios": {
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "O app usa sua localização para guiar até o local da ocorrência.",
+        "NSCameraUsageDescription": "O app usa a câmera para registrar fotos das ocorrências."
+      }
+    }
+  }
+}
