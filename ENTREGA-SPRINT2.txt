@@ -6,6 +6,9 @@ INTEGRANTES:
 - Guilherme Domingues Califoni | RM 565157
 - Enzo Ribeiro Domingues Piazentin | RM 564216
 - Bento Donato Garcia | RM 561621
+- Antonio Lucas Santana Tavares | 565516
+-  Lucas M. | 563667 
+- Gustavo Schimith | 564800
 
 REPOSITÓRIO GITHUB:
 https://github.com/GuilhermeCalifoni-code/SP-CPAD-Motiva-Field
