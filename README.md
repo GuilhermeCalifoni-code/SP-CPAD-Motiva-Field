@@ -14,6 +14,9 @@ Prof. Hercules Lima
 | Guilherme Domingues Califoni | 565157 |
 | Enzo Ribeiro Domingues Piazentin | 564216 |
 | Bento Donato Garcia | 561621 |
+| Lucas Mendes | 563667 |
+| Antonio Lucas Santana Tavares| 565516 |
+| Gustavo Schimith | 564800 |
 
 ---
 
