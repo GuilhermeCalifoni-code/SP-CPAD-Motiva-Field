@@ -21,13 +21,20 @@ export const colors = {
   verdeFundo:  '#E5F5E5',
   verdeText:   '#206020',
 };
-
+ // a corrigir: acrescimo do @expog-google-fonts para carregar as fontes
+// por enquanto, deixa a fonte padrao do sistema
 export const fonts = {
-  sora: 'Sora_400Regular',
-  soraMedium: 'Sora_500Medium',
-  soraBold: 'Sora_700Bold',
-  inter: 'Inter_400Regular',
-  interMedium: 'Inter_500Medium',
+  sora: undefined,
+  soraMedium: undefined,
+  soraBold: undefined,
+  inter: undefined,
+  interMedium: undefined,
+};
+
+export const weights = {
+  regular: '400',
+  medium:  '500',
+  bold:    '700',
 };
 
 export const spacing = {
