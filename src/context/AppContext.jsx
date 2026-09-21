@@ -9,6 +9,7 @@ const initialState = {
   ordemAtiva: ordemServico,
   servicoConcluido: false,
   navegacaoAtiva: false,
+  ultimoProtocolo: null,
 };
 
 function appReducer(state, action) {
@@ -17,12 +18,20 @@ function appReducer(state, action) {
       return { ...state, user: action.payload, isAuthenticated: true };
     case 'LOGOUT':
       return { ...initialState };
+    case 'SELECIONAR_OCORRENCIA':
+      // Fluxo alternativo: o operador escolhe outra ocorrência da lista
+      return {
+        ...state,
+        ordemAtiva: { ...ordemServico, ocorrencia: action.payload },
+        servicoConcluido: false,
+      };
     case 'INICIAR_NAVEGACAO':
       return { ...state, navegacaoAtiva: true };
     case 'CHEGAR_LOCAL':
       return { ...state, navegacaoAtiva: false };
     case 'CONCLUIR_SERVICO':
-      return { ...state, servicoConcluido: true, ordemAtiva: null };
+      // A ordem NÃO é apagada: zerá-la deixava a tela anterior com campos vazios.
+      return { ...state, servicoConcluido: true, ultimoProtocolo: action.payload ?? null };
     case 'NOVA_ORDEM':
       return { ...state, servicoConcluido: false, ordemAtiva: action.payload };
     default:
@@ -34,7 +43,6 @@ export function AppProvider({ children }) {
   const [state, dispatch] = useReducer(appReducer, initialState);
 
   const login = (cpf, senha) => {
-    // Mock: qualquer senha válida loga como currentUser
     if (cpf && senha) {
       dispatch({ type: 'LOGIN', payload: currentUser });
       return true;
@@ -42,16 +50,17 @@ export function AppProvider({ children }) {
     return false;
   };
 
-  const logout = () => dispatch({ type: 'LOGOUT' });
-  const iniciarNavegacao = () => dispatch({ type: 'INICIAR_NAVEGACAO' });
-  const chegarLocal = () => dispatch({ type: 'CHEGAR_LOCAL' });
-  const concluirServico = () => dispatch({ type: 'CONCLUIR_SERVICO' });
+  const valor = {
+    ...state,
+    login,
+    logout:               () => dispatch({ type: 'LOGOUT' }),
+    selecionarOcorrencia: (oc) => dispatch({ type: 'SELECIONAR_OCORRENCIA', payload: oc }),
+    iniciarNavegacao:     () => dispatch({ type: 'INICIAR_NAVEGACAO' }),
+    chegarLocal:          () => dispatch({ type: 'CHEGAR_LOCAL' }),
+    concluirServico:      (protocolo) => dispatch({ type: 'CONCLUIR_SERVICO', payload: protocolo }),
+  };
 
-  return (
-    <AppContext.Provider value={{ ...state, login, logout, iniciarNavegacao, chegarLocal, concluirServico }}>
-      {children}
-    </AppContext.Provider>
-  );
+  return <AppContext.Provider value={valor}>{children}</AppContext.Provider>;
 }
 
 export const useApp = () => {
