@@ -8,7 +8,7 @@ import { colors } from '../styles/tokens';
 import { statusColors } from '../data/mockData';
 
 export default function WorkOrderScreen({ navigation }) {
-  const { user, ordemAtiva, logout, iniciarNavegacao } = useApp();
+  const { user, ordemAtiva, logout, iniciarNavegacao, buscarNovaOrdem } = useApp();
   const oc = ordemAtiva?.ocorrencia;
   const status = statusColors[oc?.status] ?? statusColors.NORMAL;
 
@@ -16,6 +16,32 @@ export default function WorkOrderScreen({ navigation }) {
     iniciarNavegacao();
     navigation.navigate('Navigation');
   };
+
+  if (!ordemAtiva) {
+    return (
+      <SafeAreaView style={styles.safe}>
+        <View style={styles.header}>
+          <View style={styles.headerLeft}>
+            <View style={styles.avatar}>
+              <Text style={styles.avatarText}>{user?.initials ?? 'OP'}</Text>
+            </View>
+            <Text style={styles.headerBrand}>Motiva Field</Text>
+          </View>
+          <TouchableOpacity onPress={() => { logout(); navigation.reset('Login'); }}>
+            <Text style={styles.btnSair}>Sair</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.emptyState}>
+          <Text style={styles.emptyIcon}>📋</Text>
+          <Text style={styles.emptyTitle}>Nenhuma ordem de serviço pendente</Text>
+          <Text style={styles.emptySubtitle}>Você será notificado assim que uma nova ocorrência for atribuída.</Text>
+          <TouchableOpacity style={styles.btnBuscar} onPress={buscarNovaOrdem}>
+            <Text style={styles.btnBuscarText}>Buscar novas ordens</Text>
+          </TouchableOpacity>
+        </View>
+      </SafeAreaView>
+    );
+  }
 
   return (
     <SafeAreaView style={styles.safe}>
@@ -26,7 +52,7 @@ export default function WorkOrderScreen({ navigation }) {
           </View>
           <Text style={styles.headerBrand}>Motiva Field</Text>
         </View>
-        <TouchableOpacity onPress={() => { logout(); navigation.replace('Login'); }}>
+        <TouchableOpacity onPress={() => { logout(); navigation.reset('Login'); }}>
           <Text style={styles.btnSair}>Sair</Text>
         </TouchableOpacity>
       </View>
@@ -130,6 +156,12 @@ const styles = StyleSheet.create({
   headerBrand: { color: colors.roxo, fontSize: 15, fontWeight: '700' },
   btnSair: { color: colors.textoMuted, fontSize: 13 },
   body: { flex: 1, padding: 16 },
+  emptyState: { flex: 1, alignItems: 'center', justifyContent: 'center', padding: 32 },
+  emptyIcon: { fontSize: 40, marginBottom: 12 },
+  emptyTitle: { fontSize: 16, fontWeight: '700', color: colors.texto, textAlign: 'center' },
+  emptySubtitle: { fontSize: 13, color: colors.textoMuted, textAlign: 'center', marginTop: 6, lineHeight: 18 },
+  btnBuscar: { marginTop: 20, backgroundColor: colors.amarelo, borderRadius: 12, paddingVertical: 12, paddingHorizontal: 24 },
+  btnBuscarText: { color: '#1A1A1A', fontWeight: '700', fontSize: 13 },
   greeting: { marginBottom: 4 },
   greetSub: { color: colors.textoMuted, fontSize: 13 },
   greetName: { color: colors.texto, fontSize: 22, fontWeight: '700' },
