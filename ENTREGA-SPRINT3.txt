@@ -1,0 +1,17 @@
+MOTIVA FIELD — Sprint 3
+Cross-Platform Application Development
+FIAP 2026 | Prof. Hercules Lima
+
+INTEGRANTES:
+- Guilherme Domingues Califoni | RM 565157
+- Enzo Ribeiro Domingues Piazentin | RM 564216
+- Bento Donato Garcia | RM 561621
+- Antonio Lucas Santana Tavares | RM 565516
+- Lucas Mendes | RM 563667
+- Gustavo Schimith | RM 564800
+
+REPOSITÓRIO GITHUB:
+https://github.com/GuilhermeCalifoni-code/SP-CPAD-Motiva-Field
+
+VÍDEO DEMONSTRAÇÃO (YouTube - não listado):
+https://youtu.be/6ueYJ6vzVAQ?is=AmVvLxJH_DKuP3c3
