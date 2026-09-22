@@ -7,16 +7,20 @@ import { colors } from '../styles/tokens';
 import { navigationMock } from '../data/mockData';
 
 export default function NavigationScreen({ navigation }) {
-  const { user, ordemAtiva, chegarLocal } = useApp();
+  const { user, ordemAtiva, logout, chegarLocal } = useApp();
   const [passoAtual, setPassoAtual] = useState(0);
-  const [progresso, setProgresso] = useState(0);
+  const [erroGps, setErroGps] = useState(false);
   const destino = ordemAtiva?.ocorrencia;
+  const totalPassos = navigationMock.passos.length;
+  const progresso = totalPassos > 1 ? Math.round((passoAtual / (totalPassos - 1)) * 100) : 100;
 
   const handleCheguei = () => {
+    if (erroGps) return;
     chegarLocal();
     navigation.navigate('Success');
   };
 
+  const handleSair = () => { logout(); navigation.reset('Login'); };
   const passo = navigationMock.passos[passoAtual];
   const distRestante = (navigationMock.distanciaTotal * (1 - progresso / 100)).toFixed(1);
   const tempoRestante = Math.round(navigationMock.tempoEstimado * (1 - progresso / 100));
@@ -30,13 +34,24 @@ export default function NavigationScreen({ navigation }) {
           </View>
           <Text style={styles.headerBrand}>Motiva Field</Text>
         </View>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
+        <TouchableOpacity onPress={handleSair}>
           <Text style={styles.btnSair}>Sair</Text>
         </TouchableOpacity>
       </View>
 
       {/* Área do mapa mock */}
       <View style={styles.mapArea}>
+        {erroGps ? (
+          <View style={styles.erroBanner}>
+            <Text style={styles.erroIcon}>📡</Text>
+            <Text style={styles.erroTitle}>Sinal de GPS perdido</Text>
+            <Text style={styles.erroSubtitle}>Não foi possível atualizar sua localização. Verifique a conexão e tente novamente.</Text>
+            <TouchableOpacity style={styles.btnTentarNovamente} onPress={() => setErroGps(false)}>
+              <Text style={styles.btnTentarNovamenteText}>Tentar novamente</Text>
+            </TouchableOpacity>
+          </View>
+        ) : (
+          <>
         {/* Instrução */}
         <View style={styles.instrucaoCard}>
           <View style={styles.instrucaoIcon}>
@@ -90,6 +105,11 @@ export default function NavigationScreen({ navigation }) {
             </TouchableOpacity>
           ))}
         </ScrollView>
+        <TouchableOpacity style={styles.linkSimularErro} onPress={() => setErroGps(true)}>
+          <Text style={styles.linkSimularErroText}>Simular perda de sinal GPS</Text>
+        </TouchableOpacity>
+          </>
+        )}
       </View>
 
       {/* Painel inferior */}
@@ -108,7 +128,11 @@ export default function NavigationScreen({ navigation }) {
             <Text style={styles.statVal}>{distRestante} km</Text>
           </View>
         </View>
-        <TouchableOpacity style={styles.btnCheguei} onPress={handleCheguei}>
+        <TouchableOpacity
+          style={[styles.btnCheguei, erroGps && styles.btnChegueiDisabled]}
+          onPress={handleCheguei}
+          disabled={erroGps}
+        >
           <Text style={styles.btnChegueiText}>CHEGUEI AO LOCAL</Text>
         </TouchableOpacity>
       </View>
@@ -133,6 +157,15 @@ const styles = StyleSheet.create({
   headerBrand: { color: colors.roxo, fontSize: 15, fontWeight: '700' },
   btnSair: { color: colors.textoMuted, fontSize: 13 },
   mapArea: { flex: 1, backgroundColor: '#F0EEF8' },
+  erroBanner: { flex: 1, alignItems: 'center', justifyContent: 'center', padding: 32 },
+  erroIcon: { fontSize: 40, marginBottom: 12 },
+  erroTitle: { fontSize: 16, fontWeight: '700', color: colors.vermelhoText, textAlign: 'center' },
+  erroSubtitle: { fontSize: 13, color: colors.textoMuted, textAlign: 'center', marginTop: 6, lineHeight: 18 },
+  btnTentarNovamente: { marginTop: 20, backgroundColor: colors.roxo, borderRadius: 12, paddingVertical: 12, paddingHorizontal: 24 },
+  btnTentarNovamenteText: { color: '#FFF', fontWeight: '700', fontSize: 13 },
+  linkSimularErro: { alignItems: 'center', paddingVertical: 10 },
+  linkSimularErroText: { color: colors.textoMuted, fontSize: 11, textDecorationLine: 'underline' },
+  btnChegueiDisabled: { opacity: 0.4 },
   instrucaoCard: {
     margin: 16, backgroundColor: colors.branco,
     borderRadius: 14, padding: 14,
