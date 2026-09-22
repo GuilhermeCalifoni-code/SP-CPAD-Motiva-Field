@@ -2,7 +2,7 @@
 
 App mobile para monitoramento e gestão de vegetação em rodovias — CCR Motiva.
 
-**Sprint 2 · Cross-Platform Application Development · FIAP 2026**
+**Sprint 3 · Cross-Platform Application Development · FIAP 2026**
 Prof. Hercules Lima
 
 ---
@@ -121,8 +121,8 @@ npx expo start --ios
 
 | Recurso | Uso |
 |---|---|
-| **GPS / Location** | `expo-location` — guia o operador até o KM da ocorrência |
-| **MapView** | `react-native-maps` — exibe rota e pino no local |
+| **GPS / Location** | Navegação simulada — preparada para integração com `expo-location` na Sprint 4 |
+| **MapView** | Mapa visual mockado — preparado para integração com `react-native-maps` na Sprint 4 |
 | **Context API** | Estado global de autenticação e ordem de serviço |
 
 ---
@@ -130,18 +130,45 @@ npx expo start --ios
 ## 📋 Decisões Técnicas
 
 - **Context API + useReducer**: gerenciamento de estado global sem Redux, adequado para o escopo do app
-- **Mock em JS puro**: dados estruturados em `mockData.js`, prontos para substituição por chamadas Supabase na Sprint 3
+- **Mock em JS puro**: dados estruturados em `mockData.js`, prontos para substituição por chamadas de API/backend na Sprint 4
 - **Stack Navigator**: navegação linear que reflete o fluxo real do operador (Login → OS → Nav → Confirmação)
 - **StyleSheet nativo**: máxima performance em dispositivos de campo (sem overhead de bibliotecas)
 
 ---
 
+## ✅ Status das Funcionalidades — Sprint 3
+
+| Funcionalidade | Status | Observação |
+|---|---|---|
+| Login | ✅ Concluído | Fluxos de sucesso e erro com dados mockados |
+| Ordem de serviço | ✅ Concluído | Exibe ocorrência, risco, condições e instruções |
+| Estado sem ordem | ✅ Concluído | Tela vazia com busca de nova ordem mockada |
+| Navegação guiada | ✅ Concluído | Passos, progresso, tempo e distância simulados |
+| Erro de GPS | ✅ Concluído | Estado de erro e recuperação simulados |
+| Confirmação do serviço | ✅ Concluído | Confirmação, loading e sucesso |
+| Falha no envio | ✅ Concluído | Estado de erro simulado sem interromper o app |
+| Logout | ✅ Concluído | Retorna ao login em todos os fluxos |
+| Integração com API real | ⏳ Sprint 4 | Atualmente substituída por mocks |
+| GPS real / MapView | ⏳ Sprint 4 | Nesta Sprint a navegação é simulada visualmente |
+
+## 🧪 Testes Manuais
+
+Os testes da Sprint 3 estão documentados em [`TESTES_MANUAIS.md`](./TESTES_MANUAIS.md), cobrindo login, ordem de serviço, navegação, erro de GPS, conclusão, falha de envio, logout e estado vazio.
+
+## 🔧 Pendências e Plano para a Sprint 4
+
+1. Integrar a aplicação ao backend/API definitiva quando disponível.
+2. Substituir o GPS e o mapa simulados por recursos nativos reais.
+3. Persistir autenticação e histórico de ordens.
+4. Ampliar validações, acessibilidade e testes em dispositivos físicos.
+5. Criar testes automatizados para os fluxos críticos.
+
 ## 🔗 Links
 
 - **Repositório**: https://github.com/GuilhermeCalifoni-code/SP-CPAD-Motiva-Field
-- **Vídeo Demo**: *(inserir link YouTube após gravação)*
-- **Protótipo Figma Sprint 1**: https://canva.link/4zdkrv69yrsgorr
+- **Vídeo Demo**: https://youtu.be/6ueYJ6vzVAQ?is=AmVvLxJH_DKuP3c3
+- **Protótipo Figma**: https://canva.link/4zdkrv69yrsgorr
 
 ---
 
-> Motiva Field · Sprint 2 · FIAP 2026 · CCR Motiva
+> Motiva Field · Sprint 3 · FIAP 2026 · CCR Motiva
