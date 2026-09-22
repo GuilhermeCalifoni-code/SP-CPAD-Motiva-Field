@@ -7,11 +7,17 @@ import { useApp } from '../context/AppContext';
 import { colors } from '../styles/tokens';
 
 export default function SuccessScreen({ navigation }) {
-  const { user, ordemAtiva, concluirServico } = useApp();
+  const { user, ordemAtiva, logout, concluirServico } = useApp();
   const [loading, setLoading] = useState(false);
   const [concluido, setConcluido] = useState(false);
+  const [erroEnvio, setErroEnvio] = useState(false);
   const oc = ordemAtiva?.ocorrencia;
   const agora = new Date().toLocaleString('pt-BR', { dateStyle: 'short', timeStyle: 'short' });
+
+  const handleSair = () => {
+    logout();
+    navigation.reset('Login');
+  };
 
   const handleConcluir = () => {
     Alert.alert(
@@ -23,17 +29,26 @@ export default function SuccessScreen({ navigation }) {
           text: 'Confirmar',
           style: 'destructive',
           onPress: () => {
+            setErroEnvio(false);
             setLoading(true);
             setTimeout(() => {
               concluirServico();
               setConcluido(true);
               setLoading(false);
-              setTimeout(() => navigation.replace('Login'), 2000);
+              setTimeout(() => { logout(); navigation.reset('Login'); }, 2000);
             }, 1000);
           },
         },
       ]
     );
+  };
+
+  const handleSimularErroEnvio = () => {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+      setErroEnvio(true);
+    }, 1000);
   };
 
   return (
@@ -46,7 +61,7 @@ export default function SuccessScreen({ navigation }) {
           </View>
           <Text style={styles.headerBrand}>Motiva Field</Text>
         </View>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
+        <TouchableOpacity onPress={handleSair}>
           <Text style={styles.btnSair}>Sair</Text>
         </TouchableOpacity>
       </View>
@@ -93,6 +108,11 @@ export default function SuccessScreen({ navigation }) {
       {/* Rodapé */}
       {!concluido && (
         <View style={styles.footer}>
+          {erroEnvio && (
+            <View style={styles.erroBanner}>
+              <Text style={styles.erroBannerText}>⚠ Falha ao enviar a confirmação. Verifique a conexão e tente novamente.</Text>
+            </View>
+          )}
           <TouchableOpacity
             style={[styles.btnConcluido, loading && { opacity: 0.7 }]}
             onPress={handleConcluir}
@@ -108,6 +128,9 @@ export default function SuccessScreen({ navigation }) {
             onPress={() => navigation.goBack()}
           >
             <Text style={styles.btnVoltarText}>VOLTAR</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.linkSimularErro} onPress={handleSimularErroEnvio} disabled={loading}>
+            <Text style={styles.linkSimularErroText}>Simular falha no envio</Text>
           </TouchableOpacity>
         </View>
       )}
@@ -188,6 +211,10 @@ const styles = StyleSheet.create({
   cardTitle: { fontSize: 13, fontWeight: '600', color: colors.texto },
   cardBody: { gap: 2 },
   footer: { padding: 16, paddingBottom: 32, gap: 4 },
+  erroBanner: { backgroundColor: colors.vermelhoFundo, borderRadius: 10, padding: 10, marginBottom: 8 },
+  erroBannerText: { color: colors.vermelhoText, fontSize: 12, textAlign: 'center' },
+  linkSimularErro: { alignItems: 'center', paddingVertical: 8 },
+  linkSimularErroText: { color: colors.textoMuted, fontSize: 11, textDecorationLine: 'underline' },
   btnConcluido: {
     backgroundColor: colors.amarelo,
     borderRadius: 14, padding: 17,
